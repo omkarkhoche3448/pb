@@ -11,7 +11,7 @@ export const getExperiences = async () => {
   }
 };
 
-export const createExperience = async (ExperiencesData) => {
+export const addExperience = async (ExperiencesData) => {
   try {
     const response = await axios.post(`${API_URL}/experience/experiences`, ExperiencesData);
     return response.data;

@@ -12,8 +12,24 @@ export const getProjects = async () => {
 };
 
 export const createProject = async (projectData) => {
+  const formData = new FormData();
+  
+  formData.append('title', projectData.title);
+  formData.append('description', projectData.description);
+  formData.append('link', projectData.link);
+  formData.append('category', projectData.category);
+
+  if (projectData.image) {
+    formData.append('image', projectData.image);
+  }
+  
   try {
-    const response = await axios.post(`${API_URL}/projects/projects`, projectData);
+    const response = await axios.post(`${API_URL}/projects/projects`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('Project created:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error creating project:', error);

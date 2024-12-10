@@ -11,7 +11,7 @@ export const getAchievements = async () => {
   }
 };
 
-export const createAchievement = async (achievementData) => {
+export const addAchievement = async (achievementData) => {
   try {
     const response = await axios.post(`${API_URL}/achievement/achievements`, achievementData);
     return response.data;
