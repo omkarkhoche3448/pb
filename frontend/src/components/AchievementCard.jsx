@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { deleteAchievement } from '../services/achievementService'; // Import the delete API service
 
-const AchievementCard = ({ achievement, onAchievementUpdate }) => {
+const AchievementCard = ({ achievement, onAchievementUpdate, onAchievementDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     title: achievement.title,
@@ -16,6 +17,18 @@ const AchievementCard = ({ achievement, onAchievementUpdate }) => {
   const handleUpdate = () => {
     onAchievementUpdate(achievement._id, formData);
     setIsEditing(false);
+  };
+
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this experience?");
+    if (isConfirmed) {
+      try {
+        await deleteAchievement(achievement._id); 
+        onAchievementDelete(achievement._id); 
+      } catch (error) {
+        console.error('Failed to delete achievement:', error);
+      }
+    }
   };
 
   return (
@@ -67,6 +80,12 @@ const AchievementCard = ({ achievement, onAchievementUpdate }) => {
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
           >
             Update
+          </button>
+          <button
+            onClick={handleDelete}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded ml-2"
+          >
+            Delete
           </button>
         </div>
       )}

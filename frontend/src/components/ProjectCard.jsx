@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { updateProject } from '../services/projectService'; 
-const ProjectCard = ({ project, onProjectUpdate }) => {
+import { updateProject, deleteProject } from '../services/projectService'; 
+
+const ProjectCard = ({ project, onProjectUpdate, onProjectDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     title: project.title,
@@ -21,6 +22,18 @@ const ProjectCard = ({ project, onProjectUpdate }) => {
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update project:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this project?");
+    if (isConfirmed) {
+      try {
+        await deleteProject(project._id); 
+        onProjectDelete(project._id); 
+      } catch (error) {
+        console.error('Failed to delete project:', error);
+      }
     }
   };
 
@@ -95,6 +108,12 @@ const ProjectCard = ({ project, onProjectUpdate }) => {
             className="mt-4 px-4 py-2 ml-4 bg-blue-500 text-white rounded"
           >
             Update
+          </button>
+          <button
+            onClick={handleDelete}
+            className="mt-4 px-4 py-2 ml-4 bg-red-500 text-white rounded"
+          >
+            Delete
           </button>
         </div>
       )}

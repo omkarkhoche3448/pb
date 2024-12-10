@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { updateExperience } from '../services/experienceService'; // Import the API service
+import { updateExperience, deleteExperience } from '../services/experienceService'; // Import the API service
 
-const ExperienceCard = ({ experience, onExperienceUpdate }) => {
+const ExperienceCard = ({ experience, onExperienceUpdate, onExperienceDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     title: experience.title,
@@ -29,6 +29,18 @@ const ExperienceCard = ({ experience, onExperienceUpdate }) => {
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update experience:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this experience?");
+    if (isConfirmed) {
+      try {
+        await deleteExperience(experience._id);
+        onExperienceDelete(experience._id);
+      } catch (error) {
+        console.error('Failed to delete experience:', error);
+      }
     }
   };
 
@@ -110,8 +122,7 @@ const ExperienceCard = ({ experience, onExperienceUpdate }) => {
         <div>
           <h2 className="text-xl font-semibold text-gray-800">{experience.title}</h2>
           <p className="text-gray-600 mt-2">{experience.company}</p>
-          <p className="text-gray-500 text-sm">{experience.location}</p>
-          <p className="text-gray-500 text-sm">{experience.startDate} - {experience.endDate}</p>
+          <p className="text-gray-500 text-sm">{experience.date}</p>
           <p className="text-gray-700 mt-4">{experience.description}</p>
           {experience.skills && (
             <div className="mt-4">
@@ -128,6 +139,12 @@ const ExperienceCard = ({ experience, onExperienceUpdate }) => {
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
           >
             Update
+          </button>
+          <button
+            onClick={handleDelete}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded ml-2"
+          >
+            Delete  
           </button>
         </div>
       )}
