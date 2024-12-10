@@ -1,8 +1,18 @@
 const express = require('express');
 const app = express();
-const dbConnection = require("./config/db")
+app.use(express.json()); 
 
-const port = 3000;
+const PORT = process.env.PORT || 3000;
+
+const dbConnection = require("./config/db") 
+const projectRoutes = require('./routes/projectRoutes');
+const achievementRoutes = require('./routes/achievementRoutes');
+const experienceRoutes = require('./routes/experienceRoutes');
+
+// Use the routes
+app.use('/api/projects', projectRoutes);
+app.use('/api/achievement', achievementRoutes);
+app.use('/api/experience', experienceRoutes);
 
 dbConnection();
 app.get('/', (req, res) => {
