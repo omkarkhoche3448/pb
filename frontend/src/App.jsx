@@ -1,9 +1,25 @@
-function App() {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Projects from './pages/Projects';
+import Achievements from './pages/Achievements';
+import Experiences from './pages/Experiences'; 
+import Navbar from './components/Navbar'; 
+import Home from "./pages/Home"
+
+const App = () => {
   return (
-    <div className="bg-blue-500 text-white p-5">
-      <h1 className="text-8xl font-bold">Hello</h1>
-    </div>
+    <Router>
+      <div>
+        <Navbar /> 
+        <Routes>
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/achievements" element={<Achievements />} />
+          <Route path="/experiences" element={<Experiences />} />
+          <Route path="/" element={<Home />} /> 
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
