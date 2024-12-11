@@ -51,7 +51,7 @@ const AchievementCard = ({ achievement, onAchievementUpdate, onAchievementDelete
             className="w-full p-2 mb-2 border rounded"
           ></textarea>
           <input
-            type="date"
+            type="text"
             name="date"
             value={formData.date}
             onChange={handleInputChange}
