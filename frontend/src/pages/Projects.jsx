@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getProjects, createProject } from "../services/projectService"; // Import createProject service
+import { getProjects, createProject } from "../services/projectService";
 import ProjectCard from "../components/ProjectCard";
 
 const Projects = () => {
@@ -10,6 +10,7 @@ const Projects = () => {
     link: "",
     image: null,
     category: "",
+    priority: 0,
   });
   const [isAdding, setIsAdding] = useState(false);
 
@@ -58,6 +59,7 @@ const Projects = () => {
         link: "",
         image: null,
         category: "",
+        priority: 0,
       });
       setIsAdding(false);
     } catch (error) {
@@ -118,6 +120,16 @@ const Projects = () => {
             <option value="hackathon">Hackathon</option>
           </select>
 
+          {/* Priority Input */}
+          <input
+            type="number"
+            name="priority"
+            value={newProject.priority}
+            onChange={handleInputChange}
+            placeholder="Priority (Lower is Higher Priority)"
+            className="w-full p-2 mb-4 border rounded"
+          />
+
           <input
             type="file"
             name="image"
@@ -136,13 +148,15 @@ const Projects = () => {
       {/* Display Projects */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects && projects.length > 0 ? (
-          projects.map((project) => (
-            <ProjectCard
-              key={project._id}
-              project={project}
-              onProjectUpdate={handleProjectUpdate}
-            />
-          ))
+          projects
+            .sort((a, b) => a.priority - b.priority) 
+            .map((project) => (
+              <ProjectCard
+                key={project._id}
+                project={project}
+                onProjectUpdate={handleProjectUpdate}
+              />
+            ))
         ) : (
           <p>No projects available</p>
         )}

@@ -18,6 +18,7 @@ export const createProject = async (projectData) => {
   formData.append('description', projectData.description);
   formData.append('link', projectData.link);
   formData.append('category', projectData.category);
+  formData.append('priority', projectData.priority);
 
   if (projectData.image) {
     formData.append('image', projectData.image);

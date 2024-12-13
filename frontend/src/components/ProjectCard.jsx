@@ -8,6 +8,7 @@ const ProjectCard = ({ project, onProjectUpdate, onProjectDelete }) => {
     category: project.category,
     link: project.link,
     image: project.image,
+    priority: project.priority, 
   });
 
   const handleInputChange = (e) => {
@@ -73,6 +74,14 @@ const ProjectCard = ({ project, onProjectUpdate, onProjectDelete }) => {
             placeholder="Image URL"
             className="w-full p-2 mb-2 border rounded"
           />
+          <input
+            type="number"
+            name="priority"
+            value={formData.priority}
+            onChange={handleInputChange}
+            placeholder="Priority"
+            className="w-full p-2 mb-2 border rounded"
+          />
           <button
             onClick={handleUpdate}
             className="px-4 py-2 bg-green-500 text-white rounded"
@@ -95,6 +104,7 @@ const ProjectCard = ({ project, onProjectUpdate, onProjectDelete }) => {
           />
           <h3 className="text-xl font-semibold mt-2">{project.title}</h3>
           <p>{project.category}</p>
+          <p>Priority: {project.priority}</p> 
           <a
             href={project.link}
             target="_blank"
