@@ -50,20 +50,20 @@ app.use(
   cors({
     origin: (origin, callback) => {
       const allowedOrigins = [
-        process.env.FRONTEND_URL || "http://localhost:3000", 
-        "http://localhost:3000",  
-        "https://omkarkhochek.vercel.app", 
+        process.env.FRONTEND_URL || "http://localhost:3000",
+        "https://omkarkhochek.vercel.app",
+        process.env.FRONTEND_URL_B,
+        "http://localhost:5173",
       ];
 
-     
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, origin);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,  
-    optionsSuccessStatus: 200, 
+    credentials: true,
+    optionsSuccessStatus: 200,
   })
 );
 
