@@ -6,9 +6,7 @@ const ExperienceCard = ({ experience, onExperienceUpdate, onExperienceDelete }) 
   const [formData, setFormData] = useState({
     title: experience.title,
     company: experience.company,
-    location: experience.location,
-    startDate: experience.startDate,
-    endDate: experience.endDate,
+    date: experience.date,
     description: experience.description,
     skills: experience.skills ? experience.skills.join(', ') : '', // Convert skills array to a comma-separated string
   });
@@ -64,32 +62,14 @@ const ExperienceCard = ({ experience, onExperienceUpdate, onExperienceDelete }) 
             placeholder="Company"
             className="w-full p-2 mb-2 border rounded"
           />
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            placeholder="Location"
-            className="w-full p-2 mb-2 border rounded"
-          />
-          <div className="grid grid-cols-2 gap-2">
             <input
-              type="date"
-              name="startDate"
-              value={formData.startDate}
+              type="text"
+              name="text"
+              value={formData.date}
               onChange={handleInputChange}
-              placeholder="Start Date"
+              placeholder="Start Date - End Date"
               className="w-full p-2 border rounded"
             />
-            <input
-              type="date"
-              name="endDate"
-              value={formData.endDate}
-              onChange={handleInputChange}
-              placeholder="End Date"
-              className="w-full p-2 border rounded"
-            />
-          </div>
           <textarea
             name="description"
             value={formData.description}

@@ -12,6 +12,17 @@ const Experiences = () => {
     description: '',
     skills: []
   });
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleButtonClick = () => {
+    if (isAdding) {
+      setIsAdding(false);
+      setShowForm(false);
+    } else {
+      setIsAdding(true);
+      setShowForm(true);
+    }
+  };
 
   useEffect(() => {
     const fetchExperiences = async () => {
@@ -50,10 +61,10 @@ const Experiences = () => {
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Experiences</h1>
       <button
-        onClick={() => setShowForm(true)}
+        onClick={() => handleButtonClick()}
         className="bg-blue-500 text-white p-2 rounded mb-6"
       >
-        Add Experience
+       {isAdding ? 'Cancel' : 'Add Experience'}
       </button>
 
       {showForm && (
@@ -64,6 +75,7 @@ const Experiences = () => {
               <label className="block text-sm font-medium mb-2">Title</label>
               <input
                 type="text"
+                placeholder="Enter title"
                 value={newExperience.title}
                 onChange={(e) => setNewExperience({ ...newExperience, title: e.target.value })}
                 className="border p-2 w-full"
@@ -75,6 +87,7 @@ const Experiences = () => {
               <input
                 type="text"
                 value={newExperience.company}
+                placeholder="Enter company"
                 onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
                 className="border p-2 w-full"
                 required
@@ -84,6 +97,7 @@ const Experiences = () => {
               <label className="block text-sm font-medium mb-2">Date</label>
               <input
                 type="text"
+                placeholder="Enter date"
                 value={newExperience.date}
                 onChange={(e) => setNewExperience({ ...newExperience, date: e.target.value })}
                 className="border p-2 w-full"
@@ -94,6 +108,7 @@ const Experiences = () => {
               <label className="block text-sm font-medium mb-2">Description</label>
               <textarea
                 value={newExperience.description}
+                placeholder="Enter description"
                 onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
                 className="border p-2 w-full"
                 required

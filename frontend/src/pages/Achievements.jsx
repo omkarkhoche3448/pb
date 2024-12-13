@@ -1,15 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { getAchievements, addAchievement, updateAchievement } from '../services/achievementService'; // Make sure you have addAchievement in your service
-import AchievementCard from '../components/AchievementCard';
+import React, { useEffect, useState } from "react";
+import {
+  getAchievements,
+  addAchievement,
+  updateAchievement,
+} from "../services/achievementService"; // Make sure you have addAchievement in your service
+import AchievementCard from "../components/AchievementCard";
 
 const Achievements = () => {
   const [achievements, setAchievements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newAchievement, setNewAchievement] = useState({
-    title: '',
-    description: '',
-    date: ''
+    title: "",
+    description: "",
+    date: "",
   });
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleButtonClick = () => {
+    if (isAdding) {
+      setIsAdding(false);
+      setShowForm(false);
+    } else {
+      setIsAdding(true);
+      setShowForm(true);
+    }
+  };
 
   useEffect(() => {
     const fetchAchievements = async () => {
@@ -46,9 +61,10 @@ const Achievements = () => {
         setAchievements((prev) => [...prev, data]);
         setShowForm(false); // Close the form after submission
         setNewAchievement({
-          title: '',
-          description: '',
-          date: ''
+          title: "",
+          description: "",
+          date: "",
+          icon: "",
         }); // Reset the form fields
       }
     } catch (error) {
@@ -60,10 +76,10 @@ const Achievements = () => {
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Achievements</h1>
       <button
-        onClick={() => setShowForm(true)}
-        className="bg-blue-500 text-white p-2 rounded mb-6"
+        onClick={handleButtonClick}
+        className="px-4 py-2 bg-blue-500 text-white rounded mb-4"
       >
-        Add Achievement
+        {isAdding ? "Cancel" : "Add Achievement"}
       </button>
 
       {showForm && (
@@ -74,17 +90,31 @@ const Achievements = () => {
               <label className="block text-sm font-medium mb-2">Title</label>
               <input
                 type="text"
+                placeholder="Title"
                 value={newAchievement.title}
-                onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
+                onChange={(e) =>
+                  setNewAchievement({
+                    ...newAchievement,
+                    title: e.target.value,
+                  })
+                }
                 className="border p-2 w-full"
                 required
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Description</label>
+              <label className="block text-sm font-medium mb-2">
+                Description
+              </label>
               <textarea
                 value={newAchievement.description}
-                onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
+                placeholder="Description"
+                onChange={(e) =>
+                  setNewAchievement({
+                    ...newAchievement,
+                    description: e.target.value,
+                  })
+                }
                 className="border p-2 w-full"
                 required
               />
@@ -93,8 +123,24 @@ const Achievements = () => {
               <label className="block text-sm font-medium mb-2">Date</label>
               <input
                 type="text"
+                placeholder="Date"
                 value={newAchievement.date}
-                onChange={(e) => setNewAchievement({ ...newAchievement, date: e.target.value })}
+                onChange={(e) =>
+                  setNewAchievement({ ...newAchievement, date: e.target.value })
+                }
+                className="border p-2 w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">Icon</label>
+              <input
+                type="text"
+                placeholder="Icon"
+                value={newAchievement.date}
+                onChange={(e) =>
+                  setNewAchievement({ ...newAchievement, icon: e.target.value })
+                }
                 className="border p-2 w-full"
                 required
               />

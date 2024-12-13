@@ -7,6 +7,7 @@ const AchievementCard = ({ achievement, onAchievementUpdate, onAchievementDelete
     title: achievement.title,
     description: achievement.description,
     date: achievement.date,
+    icon: achievement.icon,
   });
 
   const handleInputChange = (e) => {
@@ -45,6 +46,7 @@ const AchievementCard = ({ achievement, onAchievementUpdate, onAchievementDelete
           />
           <textarea
             name="description"
+            placwholder="Description"
             value={formData.description}
             onChange={handleInputChange}
             placeholder="Description"
@@ -53,7 +55,16 @@ const AchievementCard = ({ achievement, onAchievementUpdate, onAchievementDelete
           <input
             type="text"
             name="date"
+            placeholder="Date"
             value={formData.date}
+            onChange={handleInputChange}
+            className="w-full p-2 mb-2 border rounded"
+          />
+          <input
+            type="text"
+            name="icon"
+            placeholder="Icon"
+            value={formData.icon}
             onChange={handleInputChange}
             className="w-full p-2 mb-2 border rounded"
           />
@@ -75,6 +86,7 @@ const AchievementCard = ({ achievement, onAchievementUpdate, onAchievementDelete
           <h2 className="text-xl font-semibold text-gray-800">{achievement.title}</h2>
           <p className="text-gray-600 mt-2">{achievement.description}</p>
           <p className="text-gray-500 text-sm">{achievement.date}</p>
+          <p className="text-gray-500 text-sm">{achievement.icon}</p>
           <button
             onClick={() => setIsEditing(true)}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
