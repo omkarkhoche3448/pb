@@ -3,26 +3,34 @@ const cloudinary = require('cloudinary').v2;
 const dotenv = require("dotenv");
 dotenv.config();
 
-const ProjectSchema = new mongoose.Schema({
-  image: {
-    type: String,
-    required: true,
+const ProjectSchema = new mongoose.Schema(
+  {
+    image: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    link: {
+      type: String,
+      required: true,
+    },
+    priority: {
+      type: Number,
+      default: 0,
+    },
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  link: {
-    type: String,
-    required: true,
-  },
-}, { 
-  timestamps: true
-});
+  {
+    timestamps: true,
+  }
+);
+
 
 const Project = mongoose.model("Project", ProjectSchema);
 

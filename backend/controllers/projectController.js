@@ -10,9 +10,9 @@ const createProject = async (req, res) => {
         field: "image"
       });
     }
-    const { title, category, link } = req.body;
-    const missingFields = [];
+    const { title, category, link, priority = 0 } = req.body;
 
+    const missingFields = [];
     if (!title) missingFields.push({ field: 'title', message: 'Title is required' });
     if (!category) missingFields.push({ field: 'category', message: 'Category is required' });
     if (!link) missingFields.push({ field: 'link', message: 'Link is required' });
@@ -44,6 +44,7 @@ const createProject = async (req, res) => {
       title: title.trim(),
       category: category.trim(),
       link: link.trim(),
+      priority,
       image: uploadResponse.secure_url,
     });
 
@@ -54,34 +55,24 @@ const createProject = async (req, res) => {
       project: savedProject,
     });
   } catch (error) {
-    console.error("Error creating project:", {
-      message: error.message,
-      stack: error.stack,
-      body: req.body
-    });
-
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({
-        error: "Validation Error",
-        details: Object.values(error.errors).map(err => err.message)
-      });
-    }
-
+    console.error("Error creating project:", error);
     res.status(500).json({ 
       error: "Internal server error",
       message: error.message 
     });
   }
 };
+
 // Get all projects
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find().sort({ priority: -1 });
     res.status(200).json(projects);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Update a project by ID
 const updateProject = async (req, res) => {
@@ -89,7 +80,6 @@ const updateProject = async (req, res) => {
     const { id } = req.params;
     const updateData = { ...req.body };
 
-    // Handle image upload if new image is present
     if (req.files && req.files.image) {
       const imageFile = req.files.image;
       const uploadResponse = await cloudinary.uploader.upload(
